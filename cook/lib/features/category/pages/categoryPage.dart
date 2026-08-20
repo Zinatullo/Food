@@ -211,11 +211,25 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: Column(
+                  child: GestureDetector(
+
+                          onTap: () {
+  context.push(
+    Uri(
+      path: '/food',
+      queryParameters: {
+        'name': food.name,
+      },
+    ).toString(),
+    extra: food,
+  );
+},
+
+                    child:                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                        Container(
                         height: 84,
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -270,8 +284,15 @@ class _CategoryPageState extends State<CategoryPage> {
                           ),
                         ],
                       ),
+                    
                     ],
                   ),
+                  )
+                  
+
+
+
+
                 ),
               );
             }).toList(),

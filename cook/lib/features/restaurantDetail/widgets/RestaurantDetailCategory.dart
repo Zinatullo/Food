@@ -1,5 +1,6 @@
 import 'package:cook/services/food_services.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantDetailCategory extends StatefulWidget {
   final FoodItem currentItem;
@@ -49,7 +50,6 @@ class _RestaurantDetailCategoryState extends State<RestaurantDetailCategory> {
           height: 46,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: categories.length,
             separatorBuilder: (context, index) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
@@ -94,28 +94,153 @@ class _RestaurantDetailCategoryState extends State<RestaurantDetailCategory> {
 
         const SizedBox(height: 16),
 
-        // --- СПИСОК ТОВАРОВ ---
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: filteredProducts.length,
-          itemBuilder: (context, index) {
-            final food = filteredProducts[index];
+        // --- ЗАГОЛОВОК КАТЕГОРИИ ---
+        Text(
+          '$currentCategory (${filteredProducts.length})',
+          style: const TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+            color: Color(0xff32343E),
+          ),
+        ),
 
-            return ListTile(
-              title: Text(food.name),
-              subtitle: Text(food.description, maxLines: 1),
-              trailing: Text(
+        const SizedBox(height: 16),
+
+        // --- СЕТКА ТОВАРОВ (2 колонки, без GridView/SliverGridDelegate) ---
+        Column(
+          children: [
+              for (int i = 0; i < filteredProducts.length; i += 2)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _FoodCard(
+                          food: filteredProducts[i],
+                          onAddTap: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: i + 1 < filteredProducts.length
+                            ? _FoodCard(
+                                food: filteredProducts[i + 1],
+                                onAddTap: () {},
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+class _FoodCard extends StatelessWidget {
+  final FoodItem food;
+  final VoidCallback onAddTap;
+
+  const _FoodCard({required this.food, required this.onAddTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+
+                          onTap: () {
+  context.push(
+    Uri(
+      path: '/food',
+      queryParameters: {
+        'name': food.name,
+      },
+    ).toString(),
+    extra: food,
+  );
+},
+child:       Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 100,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: const Color(0xff98A8B8),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          Text(
+            food.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            food.restaurantName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Color(0xff646982),
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 '\$${food.price}',
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFF68A1E),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xff32343E),
                 ),
               ),
-            );
-          },
-        ),
-      ],
+              GestureDetector(
+                onTap: onAddTap,
+                child: Container(
+                  width: 26,
+                  height: 26,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffF58D1D),
+                    borderRadius: BorderRadius.circular(45),
+                  ),
+                  child: const Icon(Icons.add, color: Colors.white, size: 18),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
+
+      )
+      
+
     );
   }
 }

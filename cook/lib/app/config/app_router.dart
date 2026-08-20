@@ -1,4 +1,5 @@
 import 'package:cook/features/category/pages/categoryPage.dart';
+import 'package:cook/features/foodDetail/pages/FoodDetail.dart';
 import 'package:cook/features/home/pages/home_page.dart';
 import 'package:cook/features/location/ui/pages/select_location_page.dart';
 import 'package:cook/features/onboarding/pages/onboarding_page.dart';
@@ -51,6 +52,18 @@ GoRoute(
     return Restaurantdetail(
       restaurantName: restaurantName,
       item: restaurantItems,
+    );
+  },
+),
+GoRoute(
+  path: '/food',
+  builder: (BuildContext context, GoRouterState state) {
+    final foodtName = state.uri.queryParameters['name'] ?? 'All'; // добавили 's'
+    final foodtItems = state.extra as FoodItem; // добавили '?'
+
+    return FoodDetail(
+      foodName: foodtName,
+      item: foodtItems,
     );
   },
 ),

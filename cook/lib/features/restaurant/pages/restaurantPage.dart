@@ -209,7 +209,20 @@ class _RestaurantpageState extends State<Restaurantpage> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
-                            child: Column(
+                            child:GestureDetector(
+
+                          onTap: () {
+  context.push(
+    Uri(
+      path: '/food',
+      queryParameters: {
+        'name': food.name,
+      },
+    ).toString(),
+    extra: food,
+  );
+},
+child:                              Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -270,6 +283,11 @@ class _RestaurantpageState extends State<Restaurantpage> {
                                 ),
                               ],
                             ),
+                            )
+                            
+
+
+
                           ),
                         );
                       }).toList(),

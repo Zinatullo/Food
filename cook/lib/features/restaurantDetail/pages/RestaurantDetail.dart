@@ -89,12 +89,16 @@ children: [
           ],
         ),
       ),
-      body: Column(children: [
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           SizedBox(
             height: 24,
           )
           ,Container(
-            width: 327,
+            width: double.infinity,
             height: 150,
             decoration: BoxDecoration(
               color: Color(0xff98A8B8),
@@ -121,6 +125,12 @@ children: [
             ),
           ),
           SizedBox(height: 22,),
+
+
+
+
+
+          
           Row(
             children: [
               const Icon(
@@ -170,7 +180,7 @@ children: [
               ),
             ],
           ),
-
+      SizedBox(height: 30,),
         FutureBuilder<List<FoodItem>>(
           future: _itemsFuture,
           builder: (context, snapshot) {
@@ -189,6 +199,7 @@ children: [
         )
         ],
 
+      ),
       ),
     );
   }
