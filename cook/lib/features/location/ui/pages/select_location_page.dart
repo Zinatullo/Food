@@ -19,7 +19,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
   /// false — геолокация не запрашивается, страница просто пропускается
   ///         (переход на следующий экран сразу по нажатию кнопки).
   /// true  — включается обычный запрос геолокации и адреса.
-  static const bool _isVisLocation = false;
+  static const bool _isVisLocation = true;
 
   bool _loading = false;
   String? _error;

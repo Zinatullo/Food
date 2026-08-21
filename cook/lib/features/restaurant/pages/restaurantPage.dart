@@ -304,7 +304,7 @@ child:                              Column(
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.go('/restaurants');
+                        context.go('/rest');
                       },
                       child: const Row(
                         children: [
